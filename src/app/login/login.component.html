@@ -1,0 +1,67 @@
+<div class="container col-sm-12">
+  <div class="text">
+    login
+  </div>
+  <div>
+    <form class="form-horizontal"
+          #checkPointFrom = "ngForm"
+          (ngSubmit)="onFormSubmit()"
+          [formGroup]="loginForm"
+          novalidate
+    >
+      <fieldset>
+        <div class="form-group">
+          <label for="usernameInput">username</label>
+          <input type="text"
+                 id = "usernameInput"
+                 formControlName = "username"
+                 maxlength="12"
+          />
+          <div class="underline"></div>
+        </div>
+        <div *ngIf="loginForm.controls['username'].invalid &&
+        (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)" class="alert alert-danger">
+          <div *ngIf="loginForm.controls['username'].errors?.['required']">
+            username is required.
+          </div>
+          <div *ngIf="loginForm.controls['username'].errors?.['minlength']">
+            min length is 3
+          </div>
+          <div *ngIf="loginForm.controls['username'].errors?.['maxlength']">
+            max length is 12
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">password</label>
+          <input type="password"
+                 id = "passwordInput"
+                 formControlName = "password"
+                 maxlength="20"
+          />
+        </div>
+        <div *ngIf="loginForm.controls['password'].invalid &&
+        (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="alert alert-danger">
+          <div *ngIf="loginForm.controls['password'].errors?.['required']">
+            password is required.
+          </div>
+          <div *ngIf="loginForm.controls['password'].errors?.['minlength']">
+            min length is 5
+          </div>
+          <div *ngIf="loginForm.controls['password'].errors?.['maxlength']">
+            max length is 20
+          </div>
+        </div>
+        <div *ngIf="error" class="alert alert-danger">
+          <div>
+            {{errorMessage}}
+          </div>
+        </div>
+        <div class=”form-group”>
+          <button type="reset" class="btn btn-default">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!checkPointFrom.form.valid">Submit</button>
+        </div>
+      </fieldset>
+    </form>
+    <a routerLink="/register">register</a>
+  </div>
+</div>

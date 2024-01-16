@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class= "col-sm-6">
+        <form class="form-horizontal"
+              #checkPointFrom = "ngForm"
+              (ngSubmit)="onFormSubmit()"
+              [formGroup]="checkPointForm"
+              novalidate
+        >
+            <fieldset>
+                <div class="form-group">
+                    <label>x</label><br/>
+                    <span *ngFor="let item of optionsR" class="radio-section">
+                        <label class="radio-button">
+                        <input type="radio" formControlName="x" [value]="item" class="radio-item">
+                            <span class="label-visible">
+                                <span class="fake-radiobutton"></span>
+                                {{item}}
+                            </span>
+                        </label>
+                    </span>
+                    <div *ngIf="checkPointForm.controls['x'].invalid && (checkPointForm.controls['x'].dirty || checkPointForm.controls['x'].touched)" class="alert alert-danger">
+                        <div *ngIf="checkPointForm.controls['x'].errors?.['required']">
+                            x is required.
+                        </div>
+                      <div *ngIf="checkPointForm.controls['x'].errors?.['NotInValues']">
+                        x must be one of {{optionsX}}
+                      </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="inputY">y</label>
+                    <input type="text"
+                           id = "inputY"
+                           formControlName="y"
+                    />
+                </div>
+                <div *ngIf="checkPointForm.controls['y'].invalid && (checkPointForm.controls['y'].dirty || checkPointForm.controls['y'].touched)" class="alert alert-danger">
+                    <div *ngIf="checkPointForm.controls['y'].errors?.['required']">
+                        y is required.
+                    </div>
+                    <div *ngIf="checkPointForm.controls['y'].errors?.['NotANumber']">
+                        y must be number.
+                    </div>
+                    <div *ngIf="checkPointForm.controls['y'].errors?.['maxlength']">
+                        y max length is 15.
+                    </div>
+                    <div *ngIf="checkPointForm.controls['y'].errors?.['NotInRange']">
+                        y must be in range (-5;3).
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>r</label><br/>
+                    <span *ngFor="let item of optionsR" class="radio-section">
+                        <label class="radio-button">
+                        <input type="radio" formControlName="r" [value]="item" class="radio-item">
+                            <span class="label-visible">
+                                <span class="fake-radiobutton"></span>
+                                {{item}}
+                            </span>
+                        </label>
+                    </span>
+                </div>
+                <div *ngIf="checkPointForm.controls['r'].invalid && (checkPointForm.controls['r'].dirty || checkPointForm.controls['r'].touched)" class="alert alert-danger">
+                    <div *ngIf="checkPointForm.controls['r'].errors?.['required']">
+                        r is required.
+                    </div>
+                    <div *ngIf="checkPointForm.controls['r'].errors?.['NotInRange']">
+                        r must be more than 0.
+                    </div>
+                  <div *ngIf="checkPointForm.controls['r'].errors?.['NotInValues']">
+                    r must be one of {{optionsR}}
+                  </div>
+                </div>
+                <div *ngIf="!response.successfully" class="alert alert-danger">
+                  <div>
+                    {{response.errors}}
+                  </div>
+                </div>
+                <div class=”form-group”>
+                    <button type="reset" class="btn btn-default">Clear</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!checkPointFrom.form.valid"
+                            #submitButton>Submit</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+    <div class="col-sm-6" #canvasContainer>
+      <canvas #pointCanvas></canvas>
+    </div>
+  </div>
+</div>
+

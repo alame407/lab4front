@@ -1,0 +1,26 @@
+<div>
+  <table mat-table [dataSource]="checkedAttemptService.carList$">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> id </th>
+      <td mat-cell *matCellDef="let checkedAttempt"> {{checkedAttempt.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="x">
+      <th mat-header-cell *matHeaderCellDef> x </th>
+      <td mat-cell *matCellDef="let checkedAttempt"> {{checkedAttempt.x}} </td>
+    </ng-container>
+    <ng-container matColumnDef="y">
+      <th mat-header-cell *matHeaderCellDef> y </th>
+      <td mat-cell *matCellDef="let checkedAttempt"> {{checkedAttempt.y}} </td>
+    </ng-container>
+    <ng-container matColumnDef="r">
+      <th mat-header-cell *matHeaderCellDef> r </th>
+      <td mat-cell *matCellDef="let checkedAttempt"> {{checkedAttempt.r}} </td>
+    </ng-container>
+    <ng-container matColumnDef="inFigure">
+      <th mat-header-cell *matHeaderCellDef> inFigure </th>
+      <td mat-cell *matCellDef="let checkedAttempt"> {{checkedAttempt.inFigure}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  </table>
+</div>
