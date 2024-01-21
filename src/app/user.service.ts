@@ -1,24 +1,29 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {User} from "./User";
 import {DefaultPostResponse} from "./DefaultPostResponse";
+import {catchError, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class UserService{
   isLoggedIn: boolean = false;
-  private registerUrl = "http://localhost:29381/users/register";
-  private authorizeUrl = "http://localhost:29381/users/authorize";
+  private registerUrl = "http://localhost:29381/register";
+  private authorizeUrl = "http://localhost:29381/login";
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
   constructor(private httpClient: HttpClient) {
   }
   register(user: User){
-    return this.httpClient.post<DefaultPostResponse>(this.registerUrl, user, this.httpOptions);
+    return this.httpClient.post<DefaultPostResponse>(this.registerUrl, user, this.httpOptions).pipe(
+      catchError(this.handleError));
   }
   authorize(user: User){
-    return this.httpClient.post<DefaultPostResponse>(this.authorizeUrl, user, this.httpOptions);
+    return this.httpClient.post<DefaultPostResponse>(this.authorizeUrl, user, this.httpOptions).pipe(catchError(this.handleError));
+  }
+  private handleError(error: HttpErrorResponse){
+    return throwError(()=> error);
   }
 }

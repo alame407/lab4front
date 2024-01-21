@@ -13,7 +13,8 @@ export class CheckedAttemptService{
   private _carList = new Subject<CheckedAttempt[]>();
   carList$ = this._carList.asObservable();
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Credentials': 'true', }),
+    withCredentials: true
   };
     constructor(private httpClient: HttpClient) {
       this.notify()

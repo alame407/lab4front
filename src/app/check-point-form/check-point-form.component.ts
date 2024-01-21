@@ -20,7 +20,7 @@ export class CheckPointFormComponent implements OnInit, AfterViewInit{
   optionsX = Array<number>();
   optionsR = Array<number>();
   checkedAttemptService: CheckedAttemptService;
-  response: DefaultPostResponse = new DefaultPostResponse(true, "");
+  response: DefaultPostResponse = new DefaultPostResponse(true, "", "");
   @ViewChild('pointCanvas')
   canvas: ElementRef<HTMLCanvasElement>;
   context: CanvasRenderingContext2D;
