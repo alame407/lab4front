@@ -32,10 +32,10 @@ export class RegisterComponent {
     this.user.password = shajs('sha256').update(this.user.password).digest('hex');
     this.userService.register(this.user).subscribe({next: value => {
       if (value.successfully) {
-        console.log(value);
         this.userService.isLoggedIn = true;
         this.error = false;
-        this.router.navigate(['../mainpage']);
+        localStorage['jwt'] = value.jwt;
+        this.router.navigate(['/mainpage']);
       }
       else {
         this.handleError(value.errors)

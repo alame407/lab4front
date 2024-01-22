@@ -29,12 +29,12 @@ export class LoginComponent {
     this.user.username = this.loginForm.controls['username'].value;
     this.user.password = this.loginForm.controls['password'].value;
     this.user.password = shajs('sha256').update(this.user.password).digest('hex');
-    this.userService.authorize(this.user).subscribe({next: value => {
+    this.userService.login(this.user).subscribe({next: value => {
         if (value.successfully) {
-          console.log(value);
+          localStorage['jwt'] = value.jwt
           this.userService.isLoggedIn = true;
           this.error = false;
-          this.router.navigate(['../mainpage']);
+          this.router.navigate(['/mainpage']);
         }
         else {
           this.handleError(value.errors)

@@ -14,24 +14,31 @@ export class CheckedAttemptService{
   carList$ = this._carList.asObservable();
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json','Access-Control-Allow-Credentials': 'true', }),
-    withCredentials: true
   };
     constructor(private httpClient: HttpClient) {
       this.notify()
     }
   getCheckedAttempt(): void {
-      this.httpClient.get<CheckedAttempt[]>(this.checkedAttemptsUrl).subscribe((data)=>{
+      let jwt = localStorage.getItem("jwt");
+      if (jwt){
+        this.httpOptions.headers = this.httpOptions.headers.set("Authorization", `Bearer ${jwt}`);
+      }
+      this.httpClient.get<CheckedAttempt[]>(this.checkedAttemptsUrl,this.httpOptions).subscribe((data)=>{
         this.checkedAttempts = data;
         this.notify();
       });
   }
   addCheckedAttempt(attempt: Attempt, response: DefaultPostResponse){
-      this.httpClient.post<DefaultPostResponse>(this.checkedAttemptsUrl,
-        attempt, this.httpOptions).subscribe(value => {
-          this.getCheckedAttempt();
-          this.notify();
-          response.successfully = value.successfully;
-          response.errors = value.errors;
+    let jwt = localStorage.getItem("jwt");
+    if (jwt){
+      this.httpOptions.headers = this.httpOptions.headers.set("Authorization", `Bearer ${jwt}`);
+    }
+    this.httpClient.post<DefaultPostResponse>(this.checkedAttemptsUrl,
+      attempt, this.httpOptions).subscribe(value => {
+        this.getCheckedAttempt();
+        this.notify();
+        response.successfully = value.successfully;
+        response.errors = value.errors;
       });
   }
   private notify() {
